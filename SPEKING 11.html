@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future Urban Landscape: 10 Existential Challenges</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 400px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 400px; 
+            max-height: 400px; 
+        }
+        .modal-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .modal-content::-webkit-scrollbar {
+            display: none;
+        }
+        /* Style for the image inside the modal */
+        .modal-image {
+            width: 100%;
+            height: auto; /* Tự động điều chỉnh chiều cao, giữ nguyên tỉ lệ */
+            max-width: 100%; /* Đảm bảo không tràn ra ngoài */
+            object-fit: contain; /* Đảm bảo hình ảnh vừa vặn mà không bị cắt */
+            border-radius: 0.5rem; /* Rounded corners */
+            margin-bottom: 1.5rem; /* Space below image */
+        }
+
+        /* Đảm bảo nội dung modal (text và image) có thể cuộn */
+        #modal-content {
+            overflow-y: auto; /* Cho phép cuộn dọc */
+            /* Tính toán chiều cao tối đa: 90vh (chiều cao modal) - (header height + padding) */
+            max-height: calc(90vh - 120px); 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="app-container" class="min-h-screen">
+        
+        <header class="bg-white shadow-sm">
+            <div class="container mx-auto px-6 py-8">
+                <h1 class="text-3xl md:text-5xl font-bold text-gray-900 text-center">The Future Urban Landscape</h1>
+                <p class="text-center text-lg md:text-xl text-indigo-600 font-semibold mt-2">10 Existential Challenges</p>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 py-12">
+            
+            <section id="introduction" class="max-w-4xl mx-auto text-center mb-16">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Examining the Smart City Paradigm</h2>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    We convene today to examine the <strong>Smart City paradigm</strong>—a future defined by technological integration. Yet, we must critically evaluate whether this architectural brilliance masks profound systemic vulnerabilities. This presentation outlines the ten existential challenges that will define the success or failure of tomorrow's urban centers.
+                </p>
+            </section>
+
+            <section id="dashboard" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">Explore the Challenges</h2>
+                <div id="challenge-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                </div>
+            </section>
+
+            <section id="conclusion" class="bg-white rounded-lg shadow-lg p-8 md:p-12">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-10">Concluding Remarks: A Call for Ethical Urbanism</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div>
+                        <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                            We have meticulously analyzed the ten pillars of risk facing the future city. As this chart illustrates, these challenges fall into two critical, equally-weighted categories.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-gray-100 rounded-lg p-6">
+                                <h3 class="text-xl font-semibold text-indigo-700 mb-2">1. The Socio-Human Pillars</h3>
+                                <p class="text-gray-700">Challenges that erode the city's <strong>Humanity</strong>, including disconnection, inequality, and job security.</p>
+                            </div>
+                            <div class="bg-gray-100 rounded-lg p-6">
+                                <h3 class="text-xl font-semibold text-teal-700 mb-2">2. The Environmental & Infrastructure Pillars</h3>
+                                <p class="text-gray-700">Challenges that compromise the city's <strong>Sustainability</strong>, including climate risk, pollution, and resource scarcity.</p>
+                            </div>
+                        </div>
+                        <p class="text-xl font-semibold text-gray-900 leading-relaxed mb-4">
+                            The core thesis is this: A city cannot be deemed 'Smart' if it is socially inequitable, environmentally destructive, and fundamentally isolating.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            The construction of the future city is not a matter of technological inevitability, but a question of <strong>ethical intent</strong>. We must champion a paradigm of <strong>Ethical Urbanism</strong> that forces a balance between algorithmic efficiency and human flourishing.
+                        </p>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="pillarsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center py-10 mt-12 border-t border-gray-200">
+            <p class="text-gray-500">An Interactive Analysis based on the Grade 11 Academic Presentation.</p>
+        </footer>
+
+    </div>
+
+    <div id="challenge-modal" class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4 transition-opacity duration-300 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div id="modal-backdrop" class="absolute inset-0"></div>
+        
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col transform transition-all duration-300 scale-95 opacity-0">
+            <header class="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 id="modal-title" class="text-2xl font-bold text-gray-900"></h2>
+                <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition-colors">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </header>
+            
+            <div id="modal-content" class="p-8 modal-content">
+                <img id="modal-challenge-image" class="modal-image hidden" alt="Challenge Illustration">
+                <p class="text-lg text-gray-700 leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const challengesData = [
+                {
+                    id: 1,
+                    title: "Cybersecurity & Privacy",
+                    icon: "🛡️",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/bao%20mat.jpg", // Đã tăng chiều cao để dễ kiểm tra cuộn
+                    content: "The urban technopolis operates on an unprecedented volume of data, rendering it susceptible to large-scale cyber warfare. The core challenge is one of <strong>digital sovereignty</strong>: who governs this data flow? A systemic breach could result in the catastrophic disruption of critical infrastructure, compromising traffic control, energy supply, and financial stability. Crucially, the extensive sensor network risks establishing pervasive <strong>digital surveillance</strong>, eroding the fundamental right to individual privacy. The imperative is clear: we must legislate robust data governance and implement resilient network architectures to ensure the Smart City remains a secure and autonomous space, rather than a digitally exposed target."
+                },
+                {
+                    id: 2,
+                    title: "Human Disconnection",
+                    icon: "📱➡️👤",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/refs/heads/main/Gemini_Generated_Image_y9zmexy9zmexy9zm.png",
+                    content: "The first socio-psychological risk is the <strong>Paradox of Human Disconnection</strong> fueled by excessive digitalization. As automation and AI assume roles in domestic and professional spheres, human reliance on digital interfaces suppplants genuine interpersonal interaction. This process accelerates <strong>social atomization</strong> and contributes to the growing epidemic of urban loneliness. Scholars note the emergence of <strong>'Digital Dependency Syndrome,'</strong> where citizens retreat into personalized virtual realities, resulting in the atrophy of essential social and empathetic skills. To counteract this, urban planning must mandate the creation of <strong>human-centric public domains</strong>—physical spaces designed to compel spontaneous, technology-free social engagement, thus nurturing the communal fabric of the city."
+                },
+                {
+                    id: 3,
+                    title: "Social Inequality",
+                    icon: "⚖️",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/kc%20giau%20ngheo.jpg",
+                    content: "Human disconnection is inextricably linked to the <strong>Aggravation of Socio-Economic Disparities</strong>. The benefits derived from advanced AI and automation are disproportionately concentrated among the highly skilled technological elite. This bifurcates the population into the <strong>'Digital Architects'</strong> and the vast, growing class of the <strong>'Technologically Displaced.'</strong> Consequently, the influx of wealth drives up the cost of urban living, geographically segregating low-income populations and impeding their access to smart services and opportunities. The city thus fractures into a <strong>dual society</strong>. The ethical imperative demands the implementation of <strong>universal educational reskilling programs</strong> and progressive financial mechanisms to ensure that technological progress acts as a force for equity, not division."
+                },
+                {
+                    id: 4,
+                    title: "Population Crisis & Migration",
+                    icon: "🏙️🚶‍♀️",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/khoang%20dso.jpg",
+                    content: "The magnetic draw of economic hubs precipitates a <strong>Population Crisis due to Unchecked Urban Migration</strong>. Concentration of the global population into limited megacities places overwhelming strain, or <strong>hyper-saturation</strong>, on existing infrastructure. This manifests as chronic traffic gridlock, acute housing deficits, and the dangerous overloading of essential public services, drastically reducing the overall quality of urban life. The sustainable solution requires radical <strong>decentralization</strong>. We must leverage smart connectivity to develop well-resourced <strong>Smart Satellite Cities</strong>, thereby distributing economic opportunities and human density across a broader regional network, mitigating the critical burden on the central metropolises."
+                },
+                {
+                    id: 5,
+                    title: "Lack of Green Space",
+                    icon: "🌳",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/thieu%20ko%20g%20xanh.jpg",
+                    content: "Within these dense urban agglomerations, we confront an ecological deficit: the <strong>Systematic Absence of Green Space and Nature</strong>. The prioritization of verticality and concrete construction over natural elements results in the intensification of the <strong>Urban Heat Island Effect</strong> and generates significant public health risks, including stress and respiratory ailments. This aesthetic choice is, fundamentally, an <strong>ecological oversight</strong>. The future urban blueprint must integrate <strong>Biophilic Design</strong>: mandatory features such as <strong>vertical forests, green roofs, and permeating natural corridors</strong>. The measure of a smart city is its ability to seamlessly integrate technology with thriving ecology, not its capacity to replace it."
+                },
+                {
+                    id: 6,
+                    title: "AI & Job Displacement",
+                    icon: "🤖👨‍💼",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/ai%20%C3%A0n%20job.jpg",
+                    content: "We now address the central challenge to human capital: <strong>Revisiting Human Agency in the Age of AI</strong>. The widespread integration of AI is not merely causing job loss, but the <strong>obsolescence of specific cognitive and manual tasks</strong>. The profound question for the coming decades is the nature of unique, non-automatable human contribution. Our competitive advantage must transition from efficiency to <strong>inherently human attributes</strong>: <strong>Creativity, Empathy, and Complex Ethical Judgment</strong>. We must restructure our educational models to cultivate these higher-order skills, empowering humans to become the supervisors and ethical architects of AI systems, thereby redefining human value beyond mere computational capacity."
+                },
+                {
+                    id: 7,
+                    title: "Air & Noise Pollution",
+                    icon: "🏭",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/air%20n%C3%B3e%20pol.jpg",
+                    content: "Shifting focus to environmental hazards, we tackle the persistent issues of <strong>Air and Noise Pollution</strong>. Despite the transition to electric vehicles, the sheer density of urban mobility, industrial activity, and construction maintains hazardous levels of airborne particulates. Furthermore, chronic <strong>noise pollution</strong> is an underappreciated public health menace, significantly correlating with cardiovascular disease and chronic stress. Radical interventions are mandatory: the implementation of <strong>'15-Minute City'</strong> designs to minimize vehicular travel, the establishment of efficient, silent public transit, and the utilization of pervasive <strong>smart sensor networks</strong> to provide real-time air quality monitoring and legal enforcement."
+                },
+                {
+                    id: 8,
+                    title: "Climate Change & Disaster Risk",
+                    icon: "🌊",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/thien%20tai%20bdkh.jpg",
+                    content: "The most critical environmental threat is the <strong>Existential Risk posed by Climate Change and Urban Disaster Vulnerability</strong>. Global warming exposes coastal cities to catastrophic <strong>sea-level rise</strong> and renders all urban areas susceptible to extreme weather events, including unprecedented heatwaves and flash floods. The economic cost of such climate shocks is unsustainable. The future city must be structurally <strong>'Resilient.'</strong> This requires massive investment in advanced protective technologies—like smart flood barriers—and large-scale <strong>Green Infrastructure</strong> development, suchasting wetlands and permeable surfaces, designed to passively absorb and mitigate the effects of extreme climatic volatility."
+                },
+                {
+                    id: 9,
+                    title: "Water & Energy Scarcity",
+                    icon: "💧⚡",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/khan%20hiem%20nc.jpg",
+                    content: "The operational sustainability of the megacity depends entirely on securing two lifelines: <strong>The Supply of Clean Water and Sustainable Energy</strong>. Urbanization drives relentless, escalating demand, severely straining natural water reserves and demanding unsustainable energy outputs. Dependence on centralized fossil fuel grids creates geopolitical and environmental fragility. The solution is dual-pronged: a complete transition to <strong>Decentralized Renewable Energy (DRE)</strong> sources, such as localized micro-grids. For water, we must implement sophisticated, AI-driven <strong>Smart Water Grids</strong> for leak detection, combined with advanced, large-scale <strong>Grey Water Recycling</strong> and desalination facilities, ensuring absolute resource efficiency."
+                },
+                {
+                    id: 10,
+                    title: "Waste Management",
+                    icon: "🗑️",
+                    imageUrl: "https://raw.githubusercontent.com/Uiinedx/public-assets/77d7760b74dd69124025daf8c95caba862967eb2/quan%20ly%20chat%20thai.jpg",
+                    content: "I present the final, most tangible challenge: <strong>Sustainable Waste Management and the Circular Economy</strong>. Our current global model is a failing, linear system: 'take-make-dispose.' The Smart City generates an overwhelming volume of waste, particularly hazardous <strong>E-Waste (Electronic Waste)</strong> from rapidly cycling devices. This waste stream is both an ecological poison and a vast reservoir of wasted valuable resources. If unaddressed, the urban technopolis risks becoming a technologically sophisticated <strong>digital landfill</strong>. The imperative is to transition to the <strong>Circular Economy</strong>, which mandates: 1. <strong>Product Redesign</strong>, 2. <strong>Automated Processing</strong>, and 3. <strong>Advanced Collection</strong>."
+                
+                }
+            ];
+
+            const grid = document.getElementById('challenge-grid');
+            const modal = document.getElementById('challenge-modal');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalContentText = document.getElementById('modal-content').querySelector('p'); // Text content
+            const modalChallengeImage = document.getElementById('modal-challenge-image'); // Image element
+            const modalTitle = document.getElementById('modal-title');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalWindow = modal.querySelector('.bg-white');
+
+            function openModal(id) {
+                const challenge = challengesData.find(c => c.id === id);
+                if (!challenge) return;
+
+                modalTitle.textContent = challenge.title;
+                modalContentText.innerHTML = challenge.content;
+                
+                // Set image source and make it visible
+                modalChallengeImage.src = challenge.imageUrl;
+                modalChallengeImage.alt = `Illustration for ${challenge.title}`;
+                modalChallengeImage.classList.remove('hidden');
+
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalWindow.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            }
+
+            function closeModal() {
+                modalWindow.classList.add('scale-95', 'opacity-0');
+                modal.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modalChallengeImage.classList.add('hidden'); // Hide image when closing
+                }, 300);
+            }
+
+            challengesData.forEach(challenge => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-md p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300';
+                card.innerHTML = `
+                    <div class="text-5xl mb-4">${challenge.icon}</div>
+                    <h3 class="text-xl font-semibold text-gray-900">${challenge.title}</h3>
+                `;
+                card.addEventListener('click', () => openModal(challenge.id));
+                card.setAttribute('role', 'button');
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('aria-label', `Learn more about ${challenge.title}`);
+                grid.appendChild(card);
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            const ctx = document.getElementById('pillarsChart').getContext('2d');
+            const pillarsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Socio-Human Pillars', 'Environmental & Infrastructure Pillars'],
+                    datasets: [{
+                        label: 'Challenge Distribution',
+                        data: [5, 5],
+                        backgroundColor: [
+                            'rgba(79, 70, 229, 0.8)',
+                            'rgba(13, 148, 136, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(79, 70, 229, 1)',
+                            'rgba(13, 148, 136, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: 'Inter',
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += `${context.parsed} Challenges`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
